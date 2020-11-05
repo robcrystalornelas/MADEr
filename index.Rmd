@@ -1,0 +1,106 @@
+--- 
+title: "Meta-analysis of Ecological Data in R"
+author: "Rob Crystal-Ornelas, PhD"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+  #bookdown::pdf_book: default
+documentclass: book
+bibliography: [ma_ecology_book.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: robcrystalornelas/meta-analysis_of_ecological_data
+description: "This is a book about how to use R for the meta-analysis of ecological data"
+delete_merged_file: true
+---
+
+# Preface {-}
+
+```{r, echo = FALSE, fig.align="center", out.width="250px"}
+knitr::include_graphics("https://drive.google.com/uc?id=1NvwA1n1n8yO--FGwaq5P613ps6PW3ogP")
+
+```
+
+## Motivation for this book {-}
+
+We created this book as a guide to conducting meta-analysis using ecological data in R.  Ecologists are increasingly turning to evidence synthesis (i.e., systematic review and meta-analysis) as a way of describing and summarizing the published evidence base within sub-disciplines.  There are helpful books that provide the theory behind meta-research in ecology [@koricheva_handbook_2013]. There are also more technical guides that provide the R code for conducting meta-analyses, but these are typically built around datasets and methodology in medical [@schwarzer_meta-analysis_2015] or social sciences [@harrer_doing_2019]. We are excited to provide a guide for those conducting a meta-analysis in R using ecological data.  We present methods that we have used in our own research, and of course indicate where we have built upon the work of other meta-researchers regardless of their primary field of investigation.
+
+## Intro to the data {-}
+
+The data we use in this book come from a meta-analysis by one of the co-authors (RCO) and his PhD advisor Dr. Julie Lockwood [@crystal-ornelas_cumulative_2020]. The data are the result of a systematic search for articles that investigate how invasive species native species richness. Language is particularly important to the field of invasion ecology [@mattingly_disconnects_2020], and so we start by describing what we mean when we say **invasive species**. The dataset contains information from ??Articles on ?? species of invasive trees. These trees havebeen intentionally or unintentionally moved to a new location from their native location.  The invasive trees have established local populations, spread from this location and are now affecting their surrounding ecosystems in the new sites.
+
+For more information about invasive species, we provide couple of references  the authors find helpful.
+
+- *Invasion Ecology* [@lockwood_invasion_2013]
+- *Encyclopedia of Bioloigcal Invasions* [@simberloff_encyclopedia_2011]
+
+### The data {-}
+Here, we import the data from google drive, and we can see from the output the classes of data (i.e., character or double) that R thinks our .csv file contains.
+```{r}
+require(tidyverse)
+require(cowplot)
+url_for_data <- "https://drive.google.com/uc?id=1eL9f8pirn8TBhyuOs39Lfcpd3TYruvDG"
+meta_analysis_data <- read_csv(url_for_data)
+```
+Next, let's inspect the data a bit, before we dive into the meta-analysis.  As you can see from the code above, and the CSV file if you open it up, there are 17 different variables, or columns, in our newly imported dataframe. Some of the varaibles are the categorical pieces of data that we extracted from the articles that describe the article itself or the study's focial invasive species.
+
+For example, we can see the most frequently studied invasive tree species in our database.
+
+```{r, echo=FALSE, fig.keep = "last"}
+species_counted <- as.data.frame(dplyr::count(meta_analysis_data, invasive_species_common_name))
+species_ordered <- arrange(species_counted, desc(n))
+species_ordered <- dplyr::rename(species_ordered, count = n)
+species_ordered$invasivespecies <- factor(species_ordered$invasive_species_common_name, levels = species_ordered$invasive_species_common_name[order(-species_ordered$count)])
+
+top_ten_species <- slice(species_ordered, 1:10)
+top_ten_species <-as.data.frame(top_ten_species)
+top_ten_species$invasivespecies <- factor(top_ten_species$invasivespecies, levels = top_ten_species$invasivespecies[order(-top_ten_species$count)])
+
+#Figure for top 10 invasives
+gg_top_ten <- ggplot(data = top_ten_species, aes(x=invasivespecies, y = count))
+gg_top_ten <- gg_top_ten + geom_bar(stat="identity", fill = "#2D708EFF")
+gg_top_ten <- gg_top_ten + ylab("Frequency")
+gg_top_ten <- gg_top_ten + xlab("Invasive Species")
+gg_top_ten <- gg_top_ten + theme_cowplot() +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 18))
+gg_top_ten <- gg_top_ten + theme(axis.text=element_text(size=15),
+                 axis.text.x = element_text(angle = 90, hjust = 0.95, vjust = .5),# Change tick mark label size
+                 axis.title=element_text(size=20),
+                 strip.text = element_text(size=12)) # Change axis title size
+gg_top_ten
+```
+
+The data that we'll be analyzing in this book include publications on the impacts of invasive trees from 1999-2016.  Here's a visualization of how the published evidence base on invasive tree impacts has grown over the past two decades.
+
+```{r echo=FALSE}
+binsize <-
+  diff(range(meta_analysis_data$publication_year)) / 17 #set to a total of 17 bins, one for each year
+
+gg_publication_year <-
+  ggplot(meta_analysis_data, aes(publication_year)) +
+  geom_histogram(binwidth = binsize,
+                 fill = "#C92D59",
+                 colour = "white")
+gg_publication_year <- gg_publication_year + theme_cowplot() +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 20)) +
+  scale_x_continuous(expand = c(0, 0))
+gg_publication_year <- gg_publication_year + ylab("Frequency")
+gg_publication_year <-
+  gg_publication_year + xlab("Publication Year")
+
+gg_publication_year <-
+  gg_publication_year + theme(
+    axis.text.x = element_text(size = 15),
+    axis.text.y = element_text(size =
+                                 15),
+    axis.title = element_text(size =
+                                20)
+  )
+gg_publication_year
+```
+
+There are many more ways to display and summarize the data included in this CSV file.  Meta-analysis statistics will most often use the numerical variables that are the key ingredients for meta-analysis (mean, standard deviation, and sample size).  Our next chapters will focus on how to use these values to create meta-analytic models.
+
+--- 
+## Acknowledgements {-}
+This book was created using the **bookdown** [@xie_bookdown_2019]. Thanks to the [Lockwood Lab](https://www.lockwoodlab.com) for motivating RCO to pursue meta-analysis in ecology and also for ping pong games. LCO, NKJ.

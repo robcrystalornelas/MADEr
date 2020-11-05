@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 13 Imputing missing values | Meta-analysis of Ecological Data in R</title>
+  <meta name="description" content="This is a book about how to use R for the meta-analysis of ecological data" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 13 Imputing missing values | Meta-analysis of Ecological Data in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a book about how to use R for the meta-analysis of ecological data" />
+  <meta name="github-repo" content="robcrystalornelas/meta-analysis_of_ecological_data" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 13 Imputing missing values | Meta-analysis of Ecological Data in R" />
+  
+  <meta name="twitter:description" content="This is a book about how to use R for the meta-analysis of ecological data" />
+  
+
+<meta name="author" content="Rob Crystal-Ornelas, PhD" />
+
+
+<meta name="date" content="2020-11-04" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="decline-effect.html"/>
+<link rel="next" href="references-1.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="libs/viz-1.8.2/viz.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/grViz-binding-1.0.5/grViz.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.13/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#motivation-for-this-book"><i class="fa fa-check"></i>Motivation for this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#intro-to-the-data"><i class="fa fa-check"></i>Intro to the data</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-data"><i class="fa fa-check"></i>The data</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="starting-a-meta-analysis.html"><a href="starting-a-meta-analysis.html"><i class="fa fa-check"></i><b>1</b> Starting a meta-analysis</a><ul>
+<li class="chapter" data-level="1.1" data-path="starting-a-meta-analysis.html"><a href="starting-a-meta-analysis.html#systematic-search"><i class="fa fa-check"></i><b>1.1</b> Systematic search</a></li>
+<li class="chapter" data-level="1.2" data-path="starting-a-meta-analysis.html"><a href="starting-a-meta-analysis.html#article-screening"><i class="fa fa-check"></i><b>1.2</b> Article screening</a></li>
+<li class="chapter" data-level="1.3" data-path="starting-a-meta-analysis.html"><a href="starting-a-meta-analysis.html#data-extraction"><i class="fa fa-check"></i><b>1.3</b> Data extraction</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="choosing-an-effect-size.html"><a href="choosing-an-effect-size.html"><i class="fa fa-check"></i><b>2</b> Choosing an effect size</a><ul>
+<li class="chapter" data-level="2.1" data-path="choosing-an-effect-size.html"><a href="choosing-an-effect-size.html#standardized-mean-difference-aka-hedges-g"><i class="fa fa-check"></i><b>2.1</b> Standardized Mean Difference (aka Hedges’ g)</a></li>
+<li class="chapter" data-level="2.2" data-path="choosing-an-effect-size.html"><a href="choosing-an-effect-size.html#response-ratio-aka-ratio-of-means"><i class="fa fa-check"></i><b>2.2</b> Response Ratio (aka Ratio of Means)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>3</b> Literature</a></li>
+<li class="chapter" data-level="4" data-path="fixed-effects-meta-analysis.html"><a href="fixed-effects-meta-analysis.html"><i class="fa fa-check"></i><b>4</b> Fixed effects meta-analysis</a><ul>
+<li class="chapter" data-level="4.1" data-path="fixed-effects-meta-analysis.html"><a href="fixed-effects-meta-analysis.html#a-brief-introduction-to-fixed-effects-models-in-meta-analysis"><i class="fa fa-check"></i><b>4.1</b> A brief introduction to fixed effects models in meta-analysis</a></li>
+<li class="chapter" data-level="4.2" data-path="fixed-effects-meta-analysis.html"><a href="fixed-effects-meta-analysis.html#fixed-effects-model-example"><i class="fa fa-check"></i><b>4.2</b> Fixed effects model example</a></li>
+<li class="chapter" data-level="4.3" data-path="fixed-effects-meta-analysis.html"><a href="fixed-effects-meta-analysis.html#forest-plot-for-fixed-effects-model"><i class="fa fa-check"></i><b>4.3</b> Forest plot for fixed effects model</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>5</b> Methods</a></li>
+<li class="chapter" data-level="6" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>6</b> Applications</a><ul>
+<li class="chapter" data-level="6.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>6.1</b> Example one</a></li>
+<li class="chapter" data-level="6.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>6.2</b> Example two</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="random-effects-meta-analysis.html"><a href="random-effects-meta-analysis.html"><i class="fa fa-check"></i><b>7</b> Random effects meta-analysis</a></li>
+<li class="chapter" data-level="8" data-path="meta-regression.html"><a href="meta-regression.html"><i class="fa fa-check"></i><b>8</b> Meta-regression</a></li>
+<li class="chapter" data-level="9" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>9</b> Final Words</a></li>
+<li class="chapter" data-level="10" data-path="publication-bias.html"><a href="publication-bias.html"><i class="fa fa-check"></i><b>10</b> Publication bias</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="11" data-path="cumulative-meta-analysis.html"><a href="cumulative-meta-analysis.html"><i class="fa fa-check"></i><b>11</b> Cumulative meta-analysis</a></li>
+<li class="chapter" data-level="12" data-path="decline-effect.html"><a href="decline-effect.html"><i class="fa fa-check"></i><b>12</b> Decline effect</a></li>
+<li class="chapter" data-level="13" data-path="imputing-missing-values.html"><a href="imputing-missing-values.html"><i class="fa fa-check"></i><b>13</b> Imputing missing values</a></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Meta-analysis of Ecological Data in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="imputing-missing-values" class="section level1">
+<h1><span class="header-section-number">Chapter 13</span> Imputing missing values</h1>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="decline-effect.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["MADEr.pdf", "MADEr.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

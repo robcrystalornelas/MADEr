@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Starting a meta-analysis | Meta-analysis of Ecological Data in R</title>
+  <meta name="description" content="This is a book about how to use R for the meta-analysis of ecological data" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Starting a meta-analysis | Meta-analysis of Ecological Data in R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a book about how to use R for the meta-analysis of ecological data" />
+  <meta name="github-repo" content="robcrystalornelas/meta-analysis_of_ecological_data" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Starting a meta-analysis | Meta-analysis of Ecological Data in R" />
+  
+  <meta name="twitter:description" content="This is a book about how to use R for the meta-analysis of ecological data" />
+  
+
+<meta name="author" content="Rob Crystal-Ornelas, PhD" />
+
+
+<meta name="date" content="2020-11-04" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="choosing-an-effect-size.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="libs/viz-1.8.2/viz.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/grViz-binding-1.0.5/grViz.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.13/datatables.js"></script>
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#motivation-for-this-book"><i class="fa fa-check"></i>Motivation for this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#intro-to-the-data"><i class="fa fa-check"></i>Intro to the data</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#the-data"><i class="fa fa-check"></i>The data</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="starting-a-meta-analysis.html"><a href="starting-a-meta-analysis.html"><i class="fa fa-check"></i><b>1</b> Starting a meta-analysis</a><ul>
+<li class="chapter" data-level="1.1" data-path="starting-a-meta-analysis.html"><a href="starting-a-meta-analysis.html#systematic-search"><i class="fa fa-check"></i><b>1.1</b> Systematic search</a></li>
+<li class="chapter" data-level="1.2" data-path="starting-a-meta-analysis.html"><a href="starting-a-meta-analysis.html#article-screening"><i class="fa fa-check"></i><b>1.2</b> Article screening</a></li>
+<li class="chapter" data-level="1.3" data-path="starting-a-meta-analysis.html"><a href="starting-a-meta-analysis.html#data-extraction"><i class="fa fa-check"></i><b>1.3</b> Data extraction</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="choosing-an-effect-size.html"><a href="choosing-an-effect-size.html"><i class="fa fa-check"></i><b>2</b> Choosing an effect size</a><ul>
+<li class="chapter" data-level="2.1" data-path="choosing-an-effect-size.html"><a href="choosing-an-effect-size.html#standardized-mean-difference-aka-hedges-g"><i class="fa fa-check"></i><b>2.1</b> Standardized Mean Difference (aka Hedges’ g)</a></li>
+<li class="chapter" data-level="2.2" data-path="choosing-an-effect-size.html"><a href="choosing-an-effect-size.html#response-ratio-aka-ratio-of-means"><i class="fa fa-check"></i><b>2.2</b> Response Ratio (aka Ratio of Means)</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>3</b> Literature</a></li>
+<li class="chapter" data-level="4" data-path="fixed-effects-meta-analysis.html"><a href="fixed-effects-meta-analysis.html"><i class="fa fa-check"></i><b>4</b> Fixed effects meta-analysis</a><ul>
+<li class="chapter" data-level="4.1" data-path="fixed-effects-meta-analysis.html"><a href="fixed-effects-meta-analysis.html#a-brief-introduction-to-fixed-effects-models-in-meta-analysis"><i class="fa fa-check"></i><b>4.1</b> A brief introduction to fixed effects models in meta-analysis</a></li>
+<li class="chapter" data-level="4.2" data-path="fixed-effects-meta-analysis.html"><a href="fixed-effects-meta-analysis.html#fixed-effects-model-example"><i class="fa fa-check"></i><b>4.2</b> Fixed effects model example</a></li>
+<li class="chapter" data-level="4.3" data-path="fixed-effects-meta-analysis.html"><a href="fixed-effects-meta-analysis.html#forest-plot-for-fixed-effects-model"><i class="fa fa-check"></i><b>4.3</b> Forest plot for fixed effects model</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>5</b> Methods</a></li>
+<li class="chapter" data-level="6" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>6</b> Applications</a><ul>
+<li class="chapter" data-level="6.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>6.1</b> Example one</a></li>
+<li class="chapter" data-level="6.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>6.2</b> Example two</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="random-effects-meta-analysis.html"><a href="random-effects-meta-analysis.html"><i class="fa fa-check"></i><b>7</b> Random effects meta-analysis</a></li>
+<li class="chapter" data-level="8" data-path="meta-regression.html"><a href="meta-regression.html"><i class="fa fa-check"></i><b>8</b> Meta-regression</a></li>
+<li class="chapter" data-level="9" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>9</b> Final Words</a></li>
+<li class="chapter" data-level="10" data-path="publication-bias.html"><a href="publication-bias.html"><i class="fa fa-check"></i><b>10</b> Publication bias</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="11" data-path="cumulative-meta-analysis.html"><a href="cumulative-meta-analysis.html"><i class="fa fa-check"></i><b>11</b> Cumulative meta-analysis</a></li>
+<li class="chapter" data-level="12" data-path="decline-effect.html"><a href="decline-effect.html"><i class="fa fa-check"></i><b>12</b> Decline effect</a></li>
+<li class="chapter" data-level="13" data-path="imputing-missing-values.html"><a href="imputing-missing-values.html"><i class="fa fa-check"></i><b>13</b> Imputing missing values</a></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Meta-analysis of Ecological Data in R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="starting-a-meta-analysis" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> Starting a meta-analysis</h1>
+<div id="systematic-search" class="section level2">
+<h2><span class="header-section-number">1.1</span> Systematic search</h2>
+<p>Every meta-analysis begins with a systematic process by which the person conducting the meta-analysis attempts to locate all articles related to the topic they are investigating. Below, I outline the the general steps of the systematic search process <strong>in bold</strong>, and then provide how one might approach a systematic search to locate the example data we use in this book. One of my favorite figures that shows all of the steps in meta-analysis and systematic review can be found in the first chapter of <span class="citation">(Koricheva, Gurevitch, and Mengersen <a href="#ref-koricheva_handbook_2013">2013</a>)</span>. They stress that much of the effort that goes into meta-analysis happens in the planning and article locating phase. It is essential to outline as much of the meta-analytic process as you can before conducting the analysis–this helps to avoid bias in the articles, analyses, and conclusions we make during the investigation.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-5"></span>
+<img src="https://drive.google.com/uc?id=1sQBNAy7WPr8S8kK5cO-4mLjysBfmRuQb" alt="A helpful reminder" width="350px" />
+<p class="caption">
+Figure 1.1: A helpful reminder
+</p>
+</div>
+<p><strong>1. Pick a topic you want to investigate</strong></p>
+<p>Your first step as a meta-analyst is the pick the topic you want to investigate. What is the question you want to ask in your research? In my experience, there are so many un-asked questions when we think of them through a meta-analytic framework. Of course, when conducting a meta-analysis we need enough published or un-published articles to synthesize data in order to conduct the analysis. But for now, let your imagination run wild! Following the steps we outline below will help you to determine whether there is enough research available on the topic to do a meta-analysis.</p>
+<p>To get ideas for meta-research projects you might start with these sources:</p>
+<ul>
+<li>Reading or re-reading some meta-research in your discipline and identifying what they see as avenues for new meta-research.</li>
+<li>One of my favorite ways of generating new research questions is by reading meta-analyses in the social or medical sciences to see what questions they ask, and then considering applying them to ecological data.</li>
+<li>Check out some data repositories like <a href="https://figshare.com/">figshare</a> or <a href="https://datadryad.org/stash">dryad</a> to see what data have researchers kindly made publicly available.</li>
+<li>The <em>Ecology</em> preprint collection on <a href="https://www.biorxiv.org/collection/ecology">bioRxiv</a> has a lot of cutting edge research that may spark some ideas for research project.</li>
+</ul>
+<p><em>Applying this to our example data</em><br />
+During my PhD, I became fascinated with invasive species and their impacts on the natural environment. Meta-research in ecology, and specifically invasion ecology has grown over the past decade or so, yet I noticed that few meta-analyses provided a comprehensive evaluation of the magnitude of impact that many different species from a variety of invasive taxa can have on biodiversity. Impacts on diversity are frequently studied in invasion ecology <span class="citation">(Crystal-Ornelas and Lockwood <a href="#ref-crystal-ornelas_known_2020">2020</a><a href="#ref-crystal-ornelas_known_2020">b</a>)</span>, so I had a suspicion that I would find plenty of data to conduct a meta-analysis on this topic.</p>
+<p>Because this book will use a slice of the larger database RCO compiled, we provide a slightly narrower research question than RCO outlined in his article that this work is based on. For the purposes of this book, we ask:</p>
+<p>How do invasive trees impact the species richness (aka alpha diversity) of native species.</p>
+<p><strong>2. pick a search engine and search terms</strong></p>
+<p>The next step is to decide on the search engines and databases you will use (Google Scholar, the CABI database, Web of Science) to locate articles relevant to your research topic.</p>
+<table style="width:100%;">
+<colgroup>
+<col width="42%" />
+<col width="28%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Database</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://www.scholar.google.com">Google Scholar</a></td>
+<td>Free to search and access to large number of scientific articles</td>
+<td>Overwhelming number of search hits</td>
+</tr>
+<tr class="even">
+<td><a href="https://www.webofknowledge.com">Web of Science</a></td>
+<td>Ability to filter articles by subject matter</td>
+<td>Institutional access required</td>
+</tr>
+<tr class="odd">
+<td><a href="https://www.cabi.org/publishing-products/cab-abstracts/">CAB Direct</a></td>
+<td>Good article filtering and contains many relevant articles for ecology</td>
+<td>Institutional access required and search can large number of hits</td>
+</tr>
+</tbody>
+</table>
+<p><em>Applying this to our example data</em><br />
+For this meta-analysis, we used the Web of Science database to locate articles on invasive species impacts. Due to time constraints, we couldn’t include all three of the databases above. The number of articles Web of Science alone returned took about a couple of years to sift through. That being said, we did our best to capture as many invasion impact articles as possible by developing broad search terms.</p>
+<p>If you are going to use Google Scholar or CAB Direct, you may want to implement methods used by <span class="citation">(Crystal-Ornelas et al., <a href="#ref-crystal-ornelas_meta-analysis_nodate">n.d.</a>; Wang Wei, Lee, and Bing Wen <a href="#ref-wang_wei_citizen_2016">2016</a>)</span> which select only the first 700 or 1000 articles returned from Google Scholar.</p>
+<p><strong>3. Search terms</strong><br />
+After deciding on the search engine(s) you will use, you need to develop the search terms you’ll use to locate articles within each database. You should aim to design a search that is completely repeatable by anyone who reads your manuscript. This means not only specifying the terms you search, but also any ways that you filter the search results (e.g., date, language, topic).</p>
+<p>When deciding on search terms you should attempt to capture every or, nearly every, published/unpublished article that is relevant to your research question. By making a search comprehensive, we avoid introducing bias into our meta-analysis <span class="citation">(Gough, Oliver, and Thomas <a href="#ref-gough_introduction_2012">2012</a>)</span>. Sometimes I like to think of this part of the process in terms of balancing <em>sensitivity</em> vs. <em>specificity</em>. We can leave the <em>specificity</em> (i.e., identifying the exactly right article we want in our meta-analysis until later). In the systematic search phase of our meta-analysis, we want to cast a wide net and capture every article, and search through every database we deem relevant as long as time permits.</p>
+<p>In many of the databases you will use, Boolean searches will be the most effective way to locate relevant articles. Harvard’s library put together a quick guide to Boolean searches <a href="https://guides.library.harvard.edu/c.php?g=310028&amp;p=2070670">here</a>. The most common Boolean “operators” are the words AND as well as OR. So, here’s how to use them. If we wanted to locate articles about a <em>smiling axolotl</em> and we wanted to make sure that the articles contained both the words “smiling” and “axolotl” we would link up those two words in our search with the word AND.</p>
+<blockquote>
+<p>axolotl AND smiling</p>
+</blockquote>
+<p>But then we realize that there are lots of synonyms for smiling, and we don’t want to miss those in our search. This is where OR comes in. In this case, the articles would have to contain the word <code>axolotl</code> and they also must contain the word <code>smiling</code> OR <code>grinning</code>. That Boolean phrase looks like this</p>
+<blockquote>
+<p>axolotl AND smiling OR grinning</p>
+</blockquote>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-6"></span>
+<img src="https://wonderopolis.org/wp-content/uploads/2019/05/Pink_1.jpg" alt="Requisite photo of smiling axolotl" width="350px" />
+<p class="caption">
+Figure 1.2: Requisite photo of smiling axolotl
+</p>
+</div>
+<p><em>Applying this to our example data</em></p>
+<p>As a reminder, we used Web of Science to search for articles about invasive species impacts. We use the topic search function that Web of Science provides. When you search topics you are actually searching for your terms in all article titles, abstracts and keywords. For our systematic search, we used the following search terms.</p>
+<blockquote>
+<p>TOPIC = invasive AND impact<code>*</code>; introduced species AND
+impact<code>*</code>; non-native AND impact<code>*</code>; exotic
+AND impact<code>*</code>; alien AND impact<code>*</code>; naturalized
+AND impact<code>*</code>; non-indigenous AND
+impact<code>*</code></p>
+</blockquote>
+<p>Rather than using the OR operator, we divided up our searches, but we easily could have linked up the synonyms for invasive with the OR operator. Note that we also included asterisks at the end of the work impact. The asterisk at the end of any word let’s the search know you want the word as you’ve type it, and any other words that have different ending letters. So our search above captured articles that used the word <em>impact</em> as well as <em>impacts</em>, <em>impacted</em>, and <em>impacting</em>.</p>
+<p>This systematic search of Web of Science yielded over 23,000 potential articles!</p>
+</div>
+<div id="article-screening" class="section level2">
+<h2><span class="header-section-number">1.2</span> Article screening</h2>
+<p>After you identify the set of candidate articles for your meta-analysis it’s time to sort through all of the articles and determine which will included in your meta-analysis. Your first step should be to delineate your <strong>inclusion criteria</strong>. These are a set of criteria that each of the articles must meet prior to inclusion into your meta-analysis.</p>
+<p>In order to help shape the inclusion criteria, we recommend adhering to the <strong>P</strong>opulation, <strong>T</strong>reatment, <strong>C</strong>ontrol, <strong>O</strong>utcome (PTRO, or sometimes called the PICO) framework <span class="citation">(Huang, Lin, and Demner-Fushman <a href="#ref-huang_evaluation_2006">2006</a>)</span>. First, make a rule about the <strong>population</strong> that an article must focus on for you to include it in the meta-analysis. For example, will you include only studies that investigate invasive crayfish? Can these studies come from populations all over the world or only in the US? Next, identify the <strong>treatment</strong> you will focus on in your meta-analysis. This criteria is called treatment because the framework was developed for medical sciences. But we can thin of the treatment group as the experimental sites. For example, the treatment sites may receive extra nutrient input or an increased amount of deer herbivory. Then you should develop a rule about the design of the <strong>control</strong> sites. For example, they may lack a certain nutrient input or experience lower levels of deer herbivory. Lastly, a rule about the focal <strong>outcome</strong> will help define the quantitative metrics you will eventually extract from each article. Following the examples from above, we may want to include only articles that measure dissolved Soil Organic Carbon or abundance of a certain flowering plant species.</p>
+<p>After deciding on your inclusion criteria, it’s time to sort article and then determine whether you’ll include the articles or exclude them based on you PTRO criteria (see above). We recommend using a Preferred reporting Items for Systematic review and Meta-Analysis flowchart (PRISMA). This flowchart allows for easy visualization of the major steps involved in sorting through articles. We recommend sorting through articles in 4 distinct steps. First, identify and remove any duplicate articles that you picked up during your systematic search. Duplicate articles are common if you searched in multiple databases. If you use a reference manager like <a href="https://www.zotero.org/">Zotero</a> finding duplicates will be a breeze and really all steps of sorting will be more organized.</p>
+<p>Then move through articles always checking for consistency with your pre-defined inclusion criteria. First first by title, then abstract, then read the full text of the article and make a decision on whether to include or exclude the article. We recommend keeping track of the articles you exclude at each step using a reference manager like zotero (mentioned above and free) or endnote (great interface, but expensive). We also recommend using a Preferred Reporting Items for Systematic Review and Meta-Analysis (PRISMA) diagram for easily conveying your screening process to readers <span class="citation">(Moher et al. <a href="#ref-moher_preferred_2009">2009</a>)</span>. Below is an example of a PRISMA flowchart that provides boxes in green that show the number of articles retained in each screening step and red boxes that show the number of articles excluded in each step. If you want to make your own PRISMA flowchart, we recommend either powerpoint or the R package <code>DiagrammeR</code> <span class="citation">(Iannone <a href="#ref-iannone_diagrammer_2018">2018</a>)</span>.</p>
+<pre><code>## Loading required package: DiagrammeR</code></pre>
+<div class="figure"><span id="fig:unnamed-chunk-7"></span>
+<div id="htmlwidget-7c7b0607254f651900e2" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7c7b0607254f651900e2">{"x":{"diagram":"digraph flowchart {\n      # node definitions with substituted label text\n      node [fontname = Helvetica, shape = rectangle]\n      tab1 [label = \"Article identified in systematic search \n (m = 1,000)\"]\n\n      node [fontname = Helvetica, shape = rectangle, color = MediumSeaGreen]\n      tab3 [label = \"Articles screened by titles \n(n = 900)\"]\n      tab5 [label = \"Articles screened by abstracts \n(n = 350)\"]\n      tab6 [label = \"Full text screened \n(n = 100)\"]\n      tab7 [label = \"Articles included in the meta-analysis \n(n = 40)\"]\n\n      node [fontname = Helvetica, shape = rectangle, color = red]\n      tab2 [label = \"Duplicates removed \n(n = 100)\"]\n      tab4 [label = \"Removed after title screen \n(n = 550)\"]\n      tab8 [label = \"Removed after abstract screen \n(n = 250)\"]\n      tab9 [label = \"Removed after full text screen \n(n = 60)\"]\n\n      # edge definitions with the node IDs\n      tab1 -> tab2;\n      tab1 -> tab3;\n      tab3 -> tab4;\n      tab3 -> tab5;\n      tab5 -> tab6;\n      tab6 -> tab7;\n      tab5 -> tab8;\n      tab6 -> tab9\n      }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+Figure 1.3: Example of a PRISMA flowchart with 3 screening steps
+</p>
+</div>
+<p><em>Applying this to our example data</em></p>
+<p>In order to create the inclusion criteria for our example meta-analysis, we used on the PTCO frameworked described above. In the table below, I provide a shorthand name for each criteria in one column and then a more detailed rationale for the criteria in the next column. As in all steps of the meta-analysis, the goal is to provide enogh detail so that someone could repeat all the steps of the analysis if they want to.</p>
+<table>
+<colgroup>
+<col width="60%" />
+<col width="40%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Criteria</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Oringal research (Population)</td>
+<td>Include only primary published research</td>
+</tr>
+<tr class="even">
+<td>Invaded sites (Treatment)</td>
+<td>Articles must include sites with invasive species. If studies measure impacts of multiple invasive species, we count each species separately in our database</td>
+</tr>
+<tr class="odd">
+<td>Sites without invasive species (Control)</td>
+<td>Experiments must have control sites without invasive species or with species at very low densities</td>
+</tr>
+<tr class="even">
+<td>Measurements of species richness (Outcome)</td>
+<td>Articles must provide mean measurement of richness at invaded and control sites (<span class="math inline">\(\bar{X}\)</span>) as well as sample size (N) and measure of variation (s, <span class="math inline">\(s^2\)</span>, or SE)</td>
+</tr>
+</tbody>
+</table>
+<p>Should you decide to use the PRISMA flowchart to organize your article screening process, here’s an template of what the flowchart can include using example data from this book. At each screening step (green box) we indicate the nuber of articles screened. We also use red boxes to highlight the number of articles that we exclude at each screening step, and we also provide the most common reasons for exclusion.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-8"></span>
+<img src="https://drive.google.com/uc?id=1gssyo2jJCRkjSfb5Ifq1npN6pyQkGlth" alt="Example PRISMA flowchart for invasive tree database" width="350px" />
+<p class="caption">
+Figure 1.4: Example PRISMA flowchart for invasive tree database
+</p>
+</div>
+<p>Note that you can modify any of the boxes to suite the needs of your screening protocol. We excluded 30 articles because they lacked any measurements of species richness. If your meta-analysis doesn’t focus on species richness then you will likely have a different box to represent the outcome you need to conduct your meta-analysis.</p>
+</div>
+<div id="data-extraction" class="section level2">
+<h2><span class="header-section-number">1.3</span> Data extraction</h2>
+<p><em>Applying this to our example data</em></p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-crystal-ornelas_meta-analysis_nodate">
+<p>Crystal-Ornelas, Robert, Jeffrey A. Brown, Rafael E. Valentin, Caroline Beardsley, and Julie L Lockwood. n.d. “Meta-Analysis Shows That Overabundant Deer (Cervidae) Populations Consistently Decrease Average Species Abundance and Richness of Forest Birds.”</p>
+</div>
+<div id="ref-crystal-ornelas_known_2020">
+<p>Crystal-Ornelas, Robert, and Julie L. 2020b. “The ‘Known Unknowns’ of Invasive Species Impact Measurement.” <em>Biological Invasions</em> 22 (4): 1513–25. <a href="https://doi.org/10.1007/s10530-020-02200-0">https://doi.org/10.1007/s10530-020-02200-0</a>.</p>
+</div>
+<div id="ref-gough_introduction_2012">
+<p>Gough, David, Sandy Oliver, and James Thomas, eds. 2012. <em>An Introduction to Systematic Reviews</em>. London ; Thousand Oaks, Calif: SAGE.</p>
+</div>
+<div id="ref-huang_evaluation_2006">
+<p>Huang, Xiaoli, Jimmy Lin, and Dina Demner-Fushman. 2006. “Evaluation of PICO as a Knowledge Representation for Clinical Questions.” <em>AMIA Annual Symposium Proceedings</em> 2006: 359–63. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1839740/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1839740/</a>.</p>
+</div>
+<div id="ref-iannone_diagrammer_2018">
+<p>Iannone, R. 2018. “DiagrammeR: Graph/Network Visualization.” <em>R Package</em> 1 (0).</p>
+</div>
+<div id="ref-koricheva_handbook_2013">
+<p>Koricheva, Julia, Jessica Gurevitch, and Kerrie Mengersen. 2013. <em>Handbook of Meta-Analysis in Ecology and Evolution</em>. Princeton University Press.</p>
+</div>
+<div id="ref-moher_preferred_2009">
+<p>Moher, David, Alessandro Liberati, Jennifer Tetzlaff, Douglas G. Altman, and Prisma Group. 2009. “Preferred Reporting Items for Systematic Reviews and Meta-Analyses: The PRISMA Statement.” <em>PLoS Medicine</em> 6 (7): e1000097. <a href="https://doi.org/10/bq3jpc">https://doi.org/10/bq3jpc</a>.</p>
+</div>
+<div id="ref-wang_wei_citizen_2016">
+<p>Wang Wei, J., B. P. Lee, and L. Bing Wen. 2016. “Citizen Science and the Urban Ecology of Birds and Butterflies - A Systematic Review.” <em>PLoS ONE</em> 11 (6): e0156425. <a href="https://doi.org/10/gbnb34">https://doi.org/10/gbnb34</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="choosing-an-effect-size.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["MADEr.pdf", "MADEr.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
